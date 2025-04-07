@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "node server.js",
-    "build": "ng build --configuration production",
+    "build": "npx @angular/cli build --configuration production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
@@ -38,7 +38,7 @@
     "typescript": "~5.0.2"
   },
   "engines": {
-    "node": "18.x",
-    "npm": "9.x"
+    "node": "20.x",
+    "npm": "10.x"
   }
 }
