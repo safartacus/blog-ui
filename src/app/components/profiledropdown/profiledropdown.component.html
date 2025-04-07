@@ -1,0 +1,54 @@
+<div class="profile-dropdown" *ngIf="currentUser; else loginButton">
+    <button class="profile-button" (click)="toggleDropdown()">
+      <img 
+        [src]="currentUser.profileImage.url || 'assets/images/default-profile.png'" 
+        [alt]="getFullName()"
+        class="profile-image"
+      >
+      <span class="profile-name">{{ getFullName() }}</span>
+      <i class="fas fa-chevron-down"></i>
+    </button>
+  
+    <div class="dropdown-menu" *ngIf="isDropdownOpen">
+      <div class="dropdown-header">
+        <img 
+          [src]="currentUser.profileImage.url || 'assets/images/default-profile.png'" 
+          [alt]="getFullName()"
+          class="profile-image-large"
+        >
+        <div class="user-info">
+          <span class="full-name">{{ getFullName() }}</span>
+          <span class="email">{{ currentUser.email }}</span>
+        </div>
+      </div>
+      
+      <div class="dropdown-divider"></div>
+      
+      <a routerLink="/profile" class="dropdown-item">
+        <i class="fas fa-user"></i>
+        Profilim
+      </a>
+      <a routerLink="/my-blogs" class="dropdown-item">
+        <i class="fas fa-newspaper"></i>
+        Yazılarım
+      </a>
+      <a routerLink="/settings" class="dropdown-item">
+        <i class="fas fa-cog"></i>
+        Ayarlar
+      </a>
+      
+      <div class="dropdown-divider"></div>
+      
+      <button (click)="logout()" class="dropdown-item logout">
+        <i class="fas fa-sign-out-alt"></i>
+        Çıkış Yap
+      </button>
+    </div>
+  </div>
+  
+  <ng-template #loginButton>
+    <div class="auth-buttons">
+      <a routerLink="/login" class="login-button">Giriş Yap</a>
+      <a routerLink="/register" class="register-button">Kayıt Ol</a>
+    </div>
+  </ng-template>

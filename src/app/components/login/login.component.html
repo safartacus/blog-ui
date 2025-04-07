@@ -1,0 +1,61 @@
+<div class="auth-container">
+    <div class="auth-card">
+      <h2>Giriş Yap</h2>
+      
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="auth-form">
+        <!-- Email -->
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input 
+            id="email"
+            type="email"
+            formControlName="email"
+            placeholder="Email adresinizi girin"
+          >
+          <div class="error-message" *ngIf="loginForm.get('email')?.errors?.['required'] && loginForm.get('email')?.touched">
+            Email zorunludur
+          </div>
+          <div class="error-message" *ngIf="loginForm.get('email')?.errors?.['email'] && loginForm.get('email')?.touched">
+            Geçerli bir email adresi girin
+          </div>
+        </div>
+  
+        <!-- Password -->
+        <div class="form-group">
+          <label for="password">Şifre</label>
+          <input 
+            id="password"
+            type="password"
+            formControlName="password"
+            placeholder="Şifrenizi girin"
+          >
+          <div class="error-message" *ngIf="loginForm.get('password')?.errors?.['required'] && loginForm.get('password')?.touched">
+            Şifre zorunludur
+          </div>
+          <div class="error-message" *ngIf="loginForm.get('password')?.errors?.['minlength'] && loginForm.get('password')?.touched">
+            Şifre en az 6 karakter olmalıdır
+          </div>
+        </div>
+  
+        <!-- Error Message -->
+        <div class="alert alert-danger" *ngIf="error">
+          {{ error }}
+        </div>
+  
+        <!-- Submit Button -->
+        <button 
+          type="submit" 
+          [disabled]="loading || !loginForm.valid"
+          class="auth-button"
+        >
+          {{ loading ? 'Giriş yapılıyor...' : 'Giriş Yap' }}
+        </button>
+  
+        <!-- Register Link -->
+        <div class="auth-links">
+          Hesabınız yok mu? 
+          <a routerLink="/register">Kayıt Ol</a>
+        </div>
+      </form>
+    </div>
+  </div>

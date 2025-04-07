@@ -1,0 +1,104 @@
+.auth-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    background: #f5f5f5;
+  
+    .auth-card {
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 400px;
+  
+      h2 {
+        text-align: center;
+        margin-bottom: 2rem;
+        color: #333;
+      }
+  
+      .auth-form {
+        .form-group {
+          margin-bottom: 1rem;
+  
+          label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #666;
+          }
+  
+          input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+  
+            &:focus {
+              outline: none;
+              border-color: #007bff;
+              box-shadow: 0 0 0 2px rgba(0,123,255,0.1);
+            }
+          }
+  
+          .error-message {
+            color: #dc3545;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+          }
+        }
+  
+        .alert {
+          padding: 0.75rem;
+          margin-bottom: 1rem;
+          border-radius: 4px;
+          
+          &.alert-danger {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+          }
+        }
+  
+        .auth-button {
+          width: 100%;
+          padding: 0.75rem;
+          background: #007bff;
+          color: white;
+          border: none;
+          border-radius: 4px;
+          font-size: 1rem;
+          cursor: pointer;
+          transition: background-color 0.2s;
+  
+          &:hover {
+            background: #0056b3;
+          }
+  
+          &:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+          }
+        }
+  
+        .auth-links {
+          text-align: center;
+          margin-top: 1rem;
+          color: #666;
+  
+          a {
+            color: #007bff;
+            text-decoration: none;
+            margin-left: 0.5rem;
+  
+            &:hover {
+              text-decoration: underline;
+            }
+          }
+        }
+      }
+    }
+  }

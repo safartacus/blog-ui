@@ -1,0 +1,126 @@
+<div class="blog-list-container">
+  <!-- Üst Başlık ve Filtreler -->
+  <div class="blog-header">
+    <h1>Blog Yazıları</h1>
+    
+    <!-- Kategori Filtreleri -->
+    <div class="category-navigation">
+      <!-- Ana kategori butonları -->
+      <div class="main-categories">
+        <button 
+          class="category-btn"
+          [class.active]="!selectedCategoryId"
+          (click)="onCategorySelect(null)"
+        >
+          Tümü
+        </button>
+        <button 
+          *ngFor="let category of visibleCategories"
+          class="category-btn"
+          [class.active]="selectedCategoryId === category._id"
+          (click)="onCategorySelect(category._id)"
+        >
+          {{ category.name }}
+        </button>
+      </div>
+
+      <!-- Dropdown için -->
+      <div class="category-dropdown" *ngIf="hiddenCategories.length > 0">
+        <button class="dropdown-toggle" (click)="toggleDropdown()">
+          Diğer <i class="fas fa-chevron-down"></i>
+        </button>
+        
+        <div class="dropdown-menu" *ngIf="showDropdown">
+          <button 
+            *ngFor="let category of hiddenCategories"
+            class="dropdown-item"
+            [class.active]="selectedCategoryId === category._id"
+            (click)="onCategorySelect(category._id)"
+          >
+            {{ category.name }}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Blog Oluştur Butonu -->
+    <button class="create-blog-btn" (click)="navigateToCreate()">
+      <i class="fas fa-plus"></i>
+      Yeni Blog Yazısı
+    </button>
+  </div>
+
+  <!-- Loading State -->
+  <div class="loading-state" *ngIf="loading">
+    <div class="spinner"></div>
+    <p>Bloglar yükleniyor...</p>
+  </div>
+
+  <!-- Error State -->
+  <div class="error-state" *ngIf="error">
+    <i class="fas fa-exclamation-circle"></i>
+    <p>{{ error }}</p>
+    <button (click)="loadBlogs()">Tekrar Dene</button>
+  </div>
+
+  <!-- Blog Listesi -->
+  <div class="blog-grid" *ngIf="!loading && !error">
+    <div class="blog-card" *ngFor="let blog of blogs">
+      <!-- Blog Resmi -->
+      <div class="blog-image" [routerLink]="['/blog', blog._id]">
+        <img [src]="blog.imageUrl" [alt]="blog.title">
+        <div class="category-badge">
+          {{ blog.category.name || 'Kategorisiz' }}
+        </div>
+      </div>
+
+      <!-- Blog İçeriği -->
+      <div class="blog-content">
+        <h2 [routerLink]="['/blog', blog._id]">{{ blog.title }}</h2>
+        <p class="blog-excerpt">{{ blog.excerpt }}</p>
+        
+        <div class="blog-meta">
+          <div class="author-info">
+            <i class="fas fa-user"></i>
+            <span>{{ blog.author.firstName }} {{ blog.author.lastName }}</span>
+          </div>
+          
+          <div class="read-time">
+            <i class="fas fa-clock"></i>
+            <span>{{ blog.readTime }} dk okuma</span>
+          </div>
+          
+          <div class="date">
+            <i class="fas fa-calendar"></i>
+            <span>{{ blog.createdAt | date:'dd MMM yyyy' }}</span>
+          </div>
+        </div>
+
+        <!-- Aksiyon Butonları -->
+        <div class="blog-actions">
+          <button class="read-more" [routerLink]="['/blog', blog._id]">
+            Devamını Oku
+            <i class="fas fa-arrow-right"></i>
+          </button>
+          
+          <div class="action-buttons" *ngIf="isAuthor(blog)">
+            <button class="edit" [routerLink]="['/blog/edit', blog._id]">
+              <i class="fas fa-edit"></i>
+            </button>
+            <button class="delete" (click)="onDeleteBlog(blog._id)">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Boş Durum -->
+  <div class="empty-state" *ngIf="!loading && !error && blogs.length === 0">
+    <i class="fas fa-newspaper"></i>
+    <h3>Bu kategoride henüz blog yazısı yok</h3>
+    <p>İlk blog yazınızı oluşturmak için "Yeni Blog Yazısı" butonuna tıklayın.</p>
+    <button routerLink="/create">Blog Yazısı Oluştur</button>
+  </div>
+</div>

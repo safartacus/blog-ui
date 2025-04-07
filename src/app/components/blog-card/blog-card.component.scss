@@ -1,0 +1,72 @@
+.blog-card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+  height: 100%; // Kartın yüksekliğini container'a göre ayarlar
+  display: flex;
+  flex-direction: column;
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+  }
+
+  .blog-image {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%; // 16:9 aspect ratio
+    
+    img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .blog-content {
+    padding: var(--spacing-lg);
+    flex: 1; // İçerik alanının esnek olmasını sağlar
+    display: flex;
+    flex-direction: column;
+    
+    h2 {
+      font-size: 1.25rem;
+      margin-bottom: var(--spacing-md);
+      color: var(--primary-color);
+      
+      @media (min-width: 768px) {
+        font-size: 1.5rem;
+      }
+    }
+
+    .blog-excerpt {
+      color: #666;
+      margin-bottom: var(--spacing-md);
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      flex: 1; // Özet kısmının esnek olmasını sağlar
+    }
+
+    .blog-meta {
+      display: flex;
+      gap: var(--spacing-md);
+      color: #888;
+      font-size: 0.9rem;
+      align-items: center;
+      margin-top: auto; // Meta bilgilerini alta sabitler
+      
+      .date, .read-time {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+      }
+    }
+  }
+}

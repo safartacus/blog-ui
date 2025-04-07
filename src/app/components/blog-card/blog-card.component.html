@@ -1,0 +1,13 @@
+<div class="blog-card" [routerLink]="['/blog', blog._id]">
+    <div class="blog-image">
+      <img [src]="blog.imageUrl" [alt]="blog.title">
+    </div>
+    <div class="blog-content">
+      <h2>{{blog.title}}</h2>
+      <p class="blog-excerpt">{{blog.excerpt}}</p>
+      <div class="blog-meta">
+        <span class="date">{{blog.date | date}}</span>
+        <span class="read-time">{{blog.readTime}} dk okuma</span>
+      </div>
+    </div>
+  </div>

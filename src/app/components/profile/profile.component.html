@@ -1,0 +1,129 @@
+<div class="profile-container">
+    <div class="profile-header">
+      <h2>Profil Bilgileri</h2>
+    </div>
+  
+    <div class="profile-content">
+      <!-- Profil Resmi -->
+      <div class="profile-image-section">
+        <div class="profile-image-container">
+          <img 
+            [src]="user?.profileImage?.url || 'assets/images/default-profile.png'" 
+            [alt]="user?.firstName"
+            class="profile-image"
+          >
+          <div class="image-upload">
+            <label for="profileImage" class="upload-button">
+              <i class="fas fa-camera"></i>
+              Fotoğraf Değiştir
+            </label>
+            <input 
+              type="file" 
+              id="profileImage" 
+              (change)="onImageSelect($event)"
+              accept="image/*"
+              hidden
+            >
+          </div>
+        </div>
+      </div>
+  
+      <!-- Profil Formu -->
+      <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="profile-form">
+        <!-- Kişisel Bilgiler -->
+        <div class="form-section">
+          <h3>Kişisel Bilgiler</h3>
+          
+          <div class="form-group">
+            <label for="firstName">Ad</label>
+            <input 
+              id="firstName"
+              type="text"
+              formControlName="firstName"
+            >
+            <div class="error-message" *ngIf="profileForm.get('firstName')?.errors?.['required'] && profileForm.get('firstName')?.touched">
+              Ad zorunludur
+            </div>
+          </div>
+  
+          <div class="form-group">
+            <label for="lastName">Soyad</label>
+            <input 
+              id="lastName"
+              type="text"
+              formControlName="lastName"
+            >
+            <div class="error-message" *ngIf="profileForm.get('lastName')?.errors?.['required'] && profileForm.get('lastName')?.touched">
+              Soyad zorunludur
+            </div>
+          </div>
+  
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input 
+              id="email"
+              type="email"
+              formControlName="email"
+              readonly
+            >
+          </div>
+        </div>
+  
+        <!-- Şifre Değiştirme -->
+        <div class="form-section">
+          <h3>Şifre Değiştir</h3>
+          
+          <div class="form-group">
+            <label for="currentPassword">Mevcut Şifre</label>
+            <input 
+              id="currentPassword"
+              type="password"
+              formControlName="currentPassword"
+            >
+          </div>
+  
+          <div class="form-group">
+            <label for="newPassword">Yeni Şifre</label>
+            <input 
+              id="newPassword"
+              type="password"
+              formControlName="newPassword"
+            >
+          </div>
+  
+          <div class="form-group">
+            <label for="confirmPassword">Yeni Şifre (Tekrar)</label>
+            <input 
+              id="confirmPassword"
+              type="password"
+              formControlName="confirmPassword"
+            >
+            <div class="error-message" *ngIf="profileForm.get('newPassword')?.value && !passwordsMatch()">
+              Şifreler eşleşmiyor
+            </div>
+          </div>
+        </div>
+  
+        <!-- Mesajlar -->
+        <div class="messages">
+          <div class="success-message" *ngIf="updateSuccess">
+            Profil başarıyla güncellendi
+          </div>
+          <div class="error-message" *ngIf="updateError">
+            {{ updateError }}
+          </div>
+        </div>
+  
+        <!-- Submit Button -->
+        <div class="form-actions">
+          <button 
+            type="submit"
+            [disabled]="loading || !profileForm.valid || (profileForm.get('newPassword')?.value && !passwordsMatch())"
+            class="submit-button"
+          >
+            {{ loading ? 'Güncelleniyor...' : 'Profili Güncelle' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>

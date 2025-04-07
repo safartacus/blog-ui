@@ -1,0 +1,19 @@
+<div class="search-bar">
+    <div class="search-input-wrapper">
+      <i class="fas fa-search search-icon"></i>
+      <input
+        #searchInput
+        type="text"
+        placeholder="Blog yazılarında ara..."
+        (input)="onSearch($event)"
+        class="search-input"
+      >
+      <button
+        *ngIf="searchInput.value"
+        (click)="clearSearch(searchInput)"
+        class="clear-button"
+      >
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+  </div>

@@ -1,0 +1,24 @@
+<div class="category-filter">
+  <h3>Kategoriler</h3>
+  
+  <div class="category-list">
+    <!-- Tüm kategoriler seçeneği -->
+    <div 
+      class="category-item"
+      [class.active]="!selectedCategoryId"
+      (click)="onCategorySelect(null)"
+    >
+      Tümü
+    </div>
+
+    <!-- Kategori listesi -->
+    <div 
+      *ngFor="let category of categories$ | async"
+      class="category-item"
+      [class.active]="selectedCategoryId === category._id"
+      (click)="onCategorySelect(category._id)"
+    >
+      {{ category.name }}
+    </div>
+  </div>
+</div>

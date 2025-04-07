@@ -1,0 +1,101 @@
+<div class="blog-detail-container" *ngIf="blog && !loading">
+  <!-- Header Bölümü -->
+  <header class="blog-header">
+    <div class="blog-image">
+      <img [src]="blog.imageUrl" [alt]="blog.title">
+    </div>
+    
+    <div class="blog-meta">
+      <h1>{{ blog.title }}</h1>
+      
+      <div class="meta-info">
+        <span class="category">
+          <i class="fas fa-folder"></i>
+          {{ blog.category.name }}
+        </span>
+        
+        <span class="author">
+          <i class="fas fa-user"></i>
+          {{ blog.author }}
+        </span>
+        
+        <span class="read-time">
+          <i class="fas fa-clock"></i>
+          {{ blog.readTime }} dakika okuma
+        </span>
+        
+        <span class="date">
+          <i class="fas fa-calendar"></i>
+          {{ blog.createdAt | date:'dd MMM yyyy' }}
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <!-- İçerik Bölümü -->
+  <div class="blog-content">
+    <!-- Özet -->
+    <div class="blog-excerpt">
+      {{ blog.excerpt }}
+    </div>
+
+    <!-- Ana İçerik -->
+    <div class="blog-main-content" [innerHTML]="blog.content"></div>
+  </div>
+
+  <!-- Aksiyon Butonları -->
+  <div class="blog-actions" *ngIf="isAuthor">
+    <button class="edit-button" (click)="onEdit()">
+      <i class="fas fa-edit"></i>
+      Düzenle
+    </button>
+    
+    <button class="delete-button" (click)="onDelete()">
+      <i class="fas fa-trash"></i>
+      Sil
+    </button>
+  </div>
+
+  <!-- Paylaşım Butonları -->
+  <div class="share-buttons">
+    <button (click)="shareOnTwitter()">
+      <i class="fab fa-twitter"></i>
+      Twitter'da Paylaş
+    </button>
+    
+    <button (click)="shareOnLinkedIn()">
+      <i class="fab fa-linkedin"></i>
+      LinkedIn'de Paylaş
+    </button>
+    
+    <button (click)="copyLink()">
+      <i class="fas fa-link"></i>
+      Linki Kopyala
+    </button>
+  </div>
+</div>
+
+<!-- Loading State -->
+<div class="loading-state" *ngIf="loading">
+  <div class="spinner"></div>
+  <p>Blog yükleniyor...</p>
+</div>
+
+<!-- Error State -->
+<div class="error-state" *ngIf="error">
+  <i class="fas fa-exclamation-circle"></i>
+  <p>{{ error }}</p>
+  <button (click)="loadBlog()">Tekrar Dene</button>
+</div>
+
+<!-- Silme Onay Modal -->
+<div class="delete-modal" *ngIf="showDeleteModal">
+  <div class="modal-content">
+    <h3>Blog Yazısını Sil</h3>
+    <p>Bu blog yazısını silmek istediğinizden emin misiniz?</p>
+    <div class="modal-actions">
+      <button class="cancel-button" (click)="showDeleteModal = false">İptal</button>
+      <button class="confirm-button" (click)="confirmDelete()">Sil</button>
+    </div>
+  </div>
+</div>

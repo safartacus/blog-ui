@@ -1,0 +1,117 @@
+<div class="blog-create-container">
+  <h2>Yeni Blog Yazısı</h2>
+
+  <form [formGroup]="blogForm" (ngSubmit)="onSubmit()" class="blog-form">
+    <div class="form-grid">
+      <!-- Sol Sütun -->
+      <div class="form-column">
+        <!-- Başlık -->
+        <div class="form-group">
+          <label for="title">Başlık</label>
+          <input 
+            id="title"
+            type="text"
+            formControlName="title"
+            placeholder="Blog başlığını girin"
+          >
+          <div class="error-message" *ngIf="blogForm.get('title')?.errors?.['required'] && blogForm.get('title')?.touched">
+            Başlık zorunludur
+          </div>
+        </div>
+
+        <!-- Özet -->
+        <div class="form-group">
+          <label for="excerpt">Özet</label>
+          <textarea 
+            id="excerpt"
+            formControlName="excerpt"
+            placeholder="Blog özetini girin"
+            rows="3"
+          ></textarea>
+          <div class="error-message" *ngIf="blogForm.get('excerpt')?.errors?.['required'] && blogForm.get('excerpt')?.touched">
+            Özet zorunludur
+          </div>
+        </div>
+
+        <!-- İçerik -->
+        <div class="form-group">
+          <label for="content">İçerik</label>
+          <textarea 
+            id="content"
+            formControlName="content"
+            placeholder="Blog içeriğini girin"
+            rows="10"
+          ></textarea>
+          <div class="error-message" *ngIf="blogForm.get('content')?.errors?.['required'] && blogForm.get('content')?.touched">
+            İçerik zorunludur
+          </div>
+        </div>
+      </div>
+
+      <!-- Sağ Sütun -->
+      <div class="form-column">
+        <!-- Kategori -->
+        <div class="form-group">
+          <label for="category">Kategori</label>
+          <select 
+            id="category" 
+            formControlName="category"
+            [class.error]="blogForm.get('category')?.errors?.['required'] && blogForm.get('category')?.touched"
+          >
+            <option value="">Kategori seçin</option>
+            <option *ngFor="let category of categories" [value]="category._id">
+              {{ category.name }}
+            </option>
+          </select>
+          <div class="error-message" *ngIf="blogForm.get('category')?.errors?.['required'] && blogForm.get('category')?.touched">
+            Kategori seçimi zorunludur
+          </div>
+        </div>
+
+
+        <!-- Okuma Süresi -->
+        <div class="form-group">
+          <label for="readTime">Okuma Süresi (dakika)</label>
+          <input 
+            id="readTime"
+            type="number"
+            formControlName="readTime"
+            min="1"
+          >
+        </div>
+
+        <!-- Resim -->
+        <div class="form-group">
+          <label for="image">Blog Resmi</label>
+          <div class="file-input-container">
+            <input 
+              id="image"
+              type="file"
+              accept="image/*"
+              (change)="onImageSelect($event)"
+              class="file-input"
+            >
+            <label for="image" class="file-label">
+              <i class="fas fa-cloud-upload-alt"></i>
+              Resim Seç
+            </label>
+          </div>
+          <div class="image-preview" *ngIf="imagePreview">
+            <img [src]="imagePreview" alt="Seçilen resim">
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="form-actions">
+          <button 
+            type="submit"
+            [disabled]="loading || !blogForm.valid"
+            class="submit-button"
+          >
+            {{ loading ? 'Yükleniyor...' : 'Blog Yazısı Oluştur' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

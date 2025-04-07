@@ -1,0 +1,89 @@
+<div class="auth-container">
+    <div class="auth-card">
+      <h2>Kayıt Ol</h2>
+      
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="auth-form">
+        <!-- First Name -->
+        <div class="form-group">
+          <label for="firstName">Ad</label>
+          <input 
+            id="firstName"
+            type="text"
+            formControlName="firstName"
+            placeholder="Adınızı girin"
+          >
+          <div class="error-message" *ngIf="registerForm.get('firstName')?.errors?.['required'] && registerForm.get('firstName')?.touched">
+            Ad zorunludur
+          </div>
+        </div>
+  
+        <!-- Last Name -->
+        <div class="form-group">
+          <label for="lastName">Soyad</label>
+          <input 
+            id="lastName"
+            type="text"
+            formControlName="lastName"
+            placeholder="Soyadınızı girin"
+          >
+          <div class="error-message" *ngIf="registerForm.get('lastName')?.errors?.['required'] && registerForm.get('lastName')?.touched">
+            Soyad zorunludur
+          </div>
+        </div>
+  
+        <!-- Email -->
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input 
+            id="email"
+            type="email"
+            formControlName="email"
+            placeholder="Email adresinizi girin"
+          >
+          <div class="error-message" *ngIf="registerForm.get('email')?.errors?.['required'] && registerForm.get('email')?.touched">
+            Email zorunludur
+          </div>
+          <div class="error-message" *ngIf="registerForm.get('email')?.errors?.['email'] && registerForm.get('email')?.touched">
+            Geçerli bir email adresi girin
+          </div>
+        </div>
+  
+        <!-- Password -->
+        <div class="form-group">
+          <label for="password">Şifre</label>
+          <input 
+            id="password"
+            type="password"
+            formControlName="password"
+            placeholder="Şifrenizi girin"
+          >
+          <div class="error-message" *ngIf="registerForm.get('password')?.errors?.['required'] && registerForm.get('password')?.touched">
+            Şifre zorunludur
+          </div>
+          <div class="error-message" *ngIf="registerForm.get('password')?.errors?.['minlength'] && registerForm.get('password')?.touched">
+            Şifre en az 6 karakter olmalıdır
+          </div>
+        </div>
+  
+        <!-- Error Message -->
+        <div class="alert alert-danger" *ngIf="error">
+          {{ error }}
+        </div>
+  
+        <!-- Submit Button -->
+        <button 
+          type="submit" 
+          [disabled]="loading || !registerForm.valid"
+          class="auth-button"
+        >
+          {{ loading ? 'Kayıt olunuyor...' : 'Kayıt Ol' }}
+        </button>
+  
+        <!-- Login Link -->
+        <div class="auth-links">
+          Zaten hesabınız var mı? 
+          <a routerLink="/login">Giriş Yap</a>
+        </div>
+      </form>
+    </div>
+  </div>
