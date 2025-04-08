@@ -1,0 +1,64 @@
+<div class="comment-section">
+    <!-- Yorum Yazma Formu -->
+    <div class="comment-form" *ngIf="authService.isLoggedIn()">
+      <textarea
+        [(ngModel)]="newComment"
+        placeholder="Yorumunuzu yazın..."
+        class="comment-input"
+      ></textarea>
+      <button 
+        (click)="addComment()"
+        [disabled]="!newComment.trim()"
+        class="comment-submit">
+        Yorum Yap
+      </button>
+    </div>
+  
+    <!-- Yorumlar Listesi -->
+    <div class="comments-list">
+      <div *ngIf="isLoading" class="loading-spinner">
+        <i class="fas fa-spinner fa-spin"></i>
+      </div>
+  
+      <div *ngFor="let comment of comments" class="comment-item">
+        <div class="comment-header">
+          <img 
+            [src]="comment.author.profileImage?.url || 'assets/images/default-avatar.png'" 
+            [alt]="comment.author.firstName"
+            class="author-avatar"
+          >
+          <div class="author-info">
+            <span class="author-name">
+              {{ comment.author.firstName }} {{ comment.author.lastName }}
+            </span>
+            <span class="comment-date">
+              {{ comment.createdAt | date:'medium' }}
+            </span>
+          </div>
+        </div>
+  
+        <div class="comment-content">
+          {{ comment.content }}
+        </div>
+  
+        <div class="comment-actions">
+          <button 
+            (click)="toggleLike(comment)"
+            [class.liked]="hasLiked(comment)"
+            class="like-button">
+            <!-- Burayı değiştiriyoruz -->
+            <i class="bi" [class.bi-heart-fill]="hasLiked(comment)" [class.bi-heart]="!hasLiked(comment)"></i>
+            {{ comment.likes.length }}
+          </button>
+      
+          <button 
+            *ngIf="isCommentOwner(comment)"
+            (click)="deleteComment(comment._id)"
+            class="delete-button">
+            <!-- Çöp kutusu ikonunu da güncelliyoruz -->
+            <i class="bi bi-trash"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>

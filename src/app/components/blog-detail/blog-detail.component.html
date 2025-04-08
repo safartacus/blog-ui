@@ -16,7 +16,7 @@
         
         <span class="author">
           <i class="fas fa-user"></i>
-          {{ blog.author }}
+          {{ blog.author.firstName }} {{ blog.author.lastName }}
         </span>
         
         <span class="read-time">
@@ -55,6 +55,10 @@
       Sil
     </button>
   </div>
+
+  <app-comment-section 
+    [blogId]="blog._id">
+  </app-comment-section>
 
   <!-- Paylaşım Butonları -->
   <div class="share-buttons">

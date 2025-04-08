@@ -62,7 +62,7 @@
             </button>
           </li>
           <li>
-            <app-profiledropdown></app-profiledropdown>
+            <app-profiledropdown [currentUser]="currentUser" *ngIf="currentUser !== undefined"></app-profiledropdown>
           </li>
         </ul>
       </nav>

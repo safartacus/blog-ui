@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { User } from '../../models/user';
@@ -8,8 +8,8 @@ import { User } from '../../models/user';
   templateUrl: './profiledropdown.component.html',
   styleUrls: ['./profiledropdown.component.scss']
 })
-export class ProfiledropdownComponent {
-  currentUser: User | null = null;
+export class ProfiledropdownComponent implements OnInit {
+  @Input() currentUser: User | null = null;
   isDropdownOpen = false;
 
   constructor(
@@ -18,9 +18,23 @@ export class ProfiledropdownComponent {
   ) {}
 
   ngOnInit(): void {
-    this.authService.getCurrentUser().subscribe(user => {
+    if (this.authService.isLoggedIn()) {
+      this.loadUserProfile();
+    }
+
+    this.authService.currentUser$.subscribe(user => {
       this.currentUser = user;
     });
+    this.authService.authStateChanged$.subscribe(() => {
+      this.loadUserProfile();
+    });
+  }
+  loadUserProfile() {
+    if(this.authService.isLoggedIn()){
+      this.authService.getCurrentUser().subscribe(user => {
+        this.currentUser = user;
+      });
+    }
   }
 
   toggleDropdown(): void {

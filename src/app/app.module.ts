@@ -24,6 +24,7 @@ import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { ProfiledropdownComponent } from './components/profiledropdown/profiledropdown.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { CommentSectionComponent } from './components/comment-section/comment-section.component';
 
 
 @NgModule({
@@ -41,7 +42,8 @@ import { ProfileComponent } from './components/profile/profile.component';
     LoginComponent,
     RegisterComponent,
     ProfiledropdownComponent,
-    ProfileComponent
+    ProfileComponent,
+    CommentSectionComponent
   ],
   imports: [
     BrowserModule,

@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { debounceTime, distinctUntilChanged, filter, Subject, takeUntil, switchMap } from 'rxjs';
 import { Blog } from 'src/app/models/blog';
+import { User } from 'src/app/models/user';
+import { AuthService } from 'src/app/services/auth.service';
 import { BlogService } from 'src/app/services/blog.service';
 import { ThemeService } from 'src/app/services/theme.service';
 
@@ -10,7 +12,7 @@ import { ThemeService } from 'src/app/services/theme.service';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
   isMenuOpen = false;
   isDarkMode$ = this.themeService.isDarkMode$;
   searchTerm: string = '';
@@ -19,11 +21,13 @@ export class HeaderComponent {
   loading = false;
   private searchSubject = new Subject<string>();
   private destroy$ = new Subject<void>();
-
+  currentUser: User | null = null;
+  
   constructor(
     private themeService: ThemeService, 
     private blogService: BlogService,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {}
 
   toggleMenu() {
@@ -54,6 +58,37 @@ export class HeaderComponent {
         }
       });
     });
+
+    
+
+    this.authService.currentUser$.subscribe(user => {
+      this.currentUser = user;
+    });
+
+    // Sayfa yüklendiğinde kullanıcı bilgilerini kontrol et
+    if (this.authService.isLoggedIn()) {
+      this.loadUserProfile();
+    }
+
+    // Auth state değişikliklerini takip et
+    this.authService.authStateChanged$.subscribe(() => {
+      this.loadUserProfile();
+    });
+  }
+
+  loadUserProfile() {
+    if (this.authService.isLoggedIn()) {
+      this.authService.getCurrentUser().subscribe({
+        next: (user) => {
+          this.currentUser = user;
+        },
+        error: (error) => {
+          console.error('Kullanıcı bilgileri yüklenemedi:', error);
+          this.authService.logout(); // Hata durumunda logout
+        }
+      });
+    }
+  
   }
 
   ngOnDestroy() {
