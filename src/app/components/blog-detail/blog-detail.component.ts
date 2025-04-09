@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BlogService } from '../../services/blog.service';
 import { Blog } from '../../models/blog';
 import { Title, Meta } from '@angular/platform-browser';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-blog-detail',
@@ -21,7 +22,8 @@ export class BlogDetailComponent implements OnInit {
     private router: Router,
     private blogService: BlogService,
     private titleService: Title,
-    private metaService: Meta
+    private metaService: Meta,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -112,5 +114,50 @@ export class BlogDetailComponent implements OnInit {
       .catch(err => {
         console.error('Link kopyalama hatası:', err);
       });
+  }
+  toggleLike(): void {
+    if (!this.blog) return;
+    
+    if (!this.authService.isLoggedIn()) {
+      this.router.navigate(['/auth/login']);
+      return;
+    }
+
+    this.blogService.toggleLike(this.blog._id).subscribe({
+      next: (updatedBlog) => {
+        this.blog = updatedBlog;
+      },
+      error: (error) => {
+        console.error('Like hatası:', error);
+      }
+    });
+  }
+
+  toggleDislike(): void {
+    if (!this.blog) return;
+    
+    if (!this.authService.isLoggedIn()) {
+      this.router.navigate(['/auth/login']);
+      return;
+    }
+
+    this.blogService.toggleDislike(this.blog._id).subscribe({
+      next: (updatedBlog) => {
+        this.blog = updatedBlog;
+      },
+      error: (error) => {
+        console.error('Dislike hatası:', error);
+      }
+    });
+  }
+
+  hasLiked(): boolean {
+    if (!this.blog) return false;
+    return this.blogService.hasLiked(this.blog, this.authService.getCurrentUserId());
+  }
+
+  hasDisliked(): boolean {
+    if (!this.blog) return false;
+    return this.blogService.hasDisliked(this.blog, this.authService.getCurrentUserId());
   }
 }

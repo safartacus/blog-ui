@@ -25,6 +25,8 @@ import { RegisterComponent } from './components/register/register.component';
 import { ProfiledropdownComponent } from './components/profiledropdown/profiledropdown.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { CommentSectionComponent } from './components/comment-section/comment-section.component';
+import { NotificationDropdownComponent } from './components/notification-dropdown/notification-dropdown.component';
+import { TimeAgoPipe } from './pipe/timeago.pipe';
 
 
 @NgModule({
@@ -39,11 +41,13 @@ import { CommentSectionComponent } from './components/comment-section/comment-se
     SearchBarComponent,
     BlogCreateComponent,
     FindPipe,
+    TimeAgoPipe,
     LoginComponent,
     RegisterComponent,
     ProfiledropdownComponent,
     ProfileComponent,
-    CommentSectionComponent
+    CommentSectionComponent,
+    NotificationDropdownComponent
   ],
   imports: [
     BrowserModule,

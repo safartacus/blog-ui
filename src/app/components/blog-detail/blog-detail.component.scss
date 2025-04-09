@@ -119,6 +119,42 @@
       }
     }
   }
+  .blog-like-actions {
+    .like-actions {
+      display: flex;
+      gap: 0.5rem;
+  
+      .like-btn, .dislike-btn {
+        padding: 0.75rem 1.5rem;
+        border-radius: 6px;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        background: var(--bg-secondary);
+        color: var(--text-secondary);
+  
+        &.active {
+          &.like-btn {
+            background: var(--primary-color);
+            color: white;
+          }
+  
+          &.dislike-btn {
+            background: #dc3545;
+            color: white;
+          }
+        }
+  
+        i {
+          font-size: 1.2rem;
+        }
+      }
+    }
+  }
 
   // Paylaşım Butonları
   .share-buttons {

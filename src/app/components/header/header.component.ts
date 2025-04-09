@@ -39,6 +39,11 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    this.authService.currentUser$.subscribe(user => {
+      this.currentUser = user;
+    });
+
     this.searchSubject.pipe(
       takeUntil(this.destroy$),
       debounceTime(300),
@@ -74,6 +79,10 @@ export class HeaderComponent implements OnInit {
     this.authService.authStateChanged$.subscribe(() => {
       this.loadUserProfile();
     });
+  }
+
+  isLoggedIn() {
+    return this.currentUser !== null;
   }
 
   loadUserProfile() {

@@ -13,6 +13,8 @@ export interface IBlog {
     category: Category;
     createdAt: Date;
     updatedAt: Date;
+    likes: User[];
+    dislikes: User[];
   }
   export class Blog implements IBlog{
     _id!: string;
@@ -26,6 +28,8 @@ export interface IBlog {
     category!: Category;
     createdAt!: Date;
     updatedAt!: Date;
+    likes!: User[];
+    dislikes!: User[];
   }
   export interface ICreateBlogDto {
     title: string;

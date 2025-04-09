@@ -62,6 +62,10 @@
             </button>
           </li>
           <li>
+            <app-notification-dropdown *ngIf="isLoggedIn"></app-notification-dropdown>
+
+          </li>
+          <li>
             <app-profiledropdown [currentUser]="currentUser" *ngIf="currentUser !== undefined"></app-profiledropdown>
           </li>
         </ul>

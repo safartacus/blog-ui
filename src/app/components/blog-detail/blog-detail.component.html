@@ -55,6 +55,24 @@
       Sil
     </button>
   </div>
+  <div class="blog-like-actions">
+    <div class="like-actions">
+    <button 
+        (click)="toggleLike()"
+        [class.active]="hasLiked()"
+        class="like-btn">
+        <i class="fas fa-thumbs-up"></i>
+        {{ blog.likes?.length || 0 }}
+      </button>
+      <button 
+        (click)="toggleDislike()"
+        [class.active]="hasDisliked()"
+        class="dislike-btn">
+        <i class="fas fa-thumbs-down"></i>
+        {{ blog.dislikes?.length || 0 }}
+      </button>
+    </div>
+  </div>
 
   <app-comment-section 
     [blogId]="blog._id">

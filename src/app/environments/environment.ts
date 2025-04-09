@@ -1,4 +1,5 @@
 export const environment = {
-    production: true,
-    apiUrl: 'https://web-production-49bd.up.railway.app'
+    production: false,
+    apiUrl: 'http://localhost:3000',
+    notificationApiUrl: 'http://localhost:3001'
   };

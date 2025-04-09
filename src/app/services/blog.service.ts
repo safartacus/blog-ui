@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { BehaviorSubject, catchError, Observable, tap } from 'rxjs';
+import { BehaviorSubject, catchError, map, Observable, tap } from 'rxjs';
 import { Blog, CreateBlogDto } from '../models/blog';
 import { environment } from '../environments/environment';
 
@@ -39,7 +39,14 @@ export class BlogService {
 
   // ID'ye göre blog getir
   getBlogById(id: string): Observable<Blog> {
-    return this.http.get<Blog>(`${this.apiUrl}/${id}`);
+    return this.http.get<Blog>(`${this.apiUrl}/${id}`)
+      .pipe(
+        map((blog: Blog) => ({
+          ...blog,
+          likes: blog.likes || [],
+          dislikes: blog.dislikes || []
+        }))
+      );
   }
 
   // Yeni blog oluştur
@@ -132,5 +139,23 @@ export class BlogService {
         this.blogsSubject.next(filtered);
       }
     });
+  }
+  hasLiked(blog: Blog, userId: string): boolean {
+    return blog?.likes?.some(user => user._id === userId) ?? false;
+  }
+
+  // Beğenmeme durumunu kontrol et
+  hasDisliked(blog: Blog, userId: string): boolean {
+    return blog?.dislikes?.some(user => user._id === userId) ?? false;
+  }
+
+  // Beğeni ekle/kaldır
+  toggleLike(blogId: string): Observable<Blog> {
+    return this.http.post<Blog>(`${this.apiUrl}/${blogId}/like`, {});
+  }
+
+  // Beğenmeme ekle/kaldır
+  toggleDislike(blogId: string): Observable<Blog> {
+    return this.http.post<Blog>(`${this.apiUrl}/${blogId}/dislike`, {});
   }
 }

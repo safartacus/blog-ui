@@ -1,0 +1,48 @@
+<div class="notification-dropdown">
+    <button class="notification-btn" (click)="toggleDropdown()">
+      <i class="fas fa-bell"></i>
+      <span class="badge" *ngIf="unreadCount > 0">{{ unreadCount }}</span>
+    </button>
+  
+    <div class="dropdown-content" *ngIf="showDropdown">
+      <div class="dropdown-header">
+        <h3>Bildirimler</h3>
+        <button 
+          class="mark-all-btn" 
+          (click)="markAllAsRead()"
+          *ngIf="unreadCount > 0">
+          Tümünü Okundu İşaretle
+        </button>
+      </div>
+  
+      <div class="notifications-list" *ngIf="!isLoading">
+        <div 
+          *ngFor="let notification of notifications"
+          class="notification-item"
+          [class.unread]="!notification.read"
+          (click)="markAsRead(notification)">
+          
+          <img 
+            [src]="notification.sender.profileImage?.url || 'assets/default-avatar.png'"
+            alt="Profil resmi"
+            class="sender-avatar">
+          
+          <div class="notification-content">
+            <p class="message">
+              <strong>{{ notification.sender.firstName }} {{ notification.sender.lastName }}</strong>
+              {{ notification.type === 'BLOG_LIKE' ? ' blogunuzu beğendi' : ' yorumunuzu beğendi' }}
+            </p>
+            <span class="time">{{ notification.createdAt | timeago }}</span>
+          </div>
+        </div>
+  
+        <div class="no-notifications" *ngIf="notifications.length === 0">
+          Bildirim bulunmuyor
+        </div>
+      </div>
+  
+      <div class="loading" *ngIf="isLoading">
+        Yükleniyor...
+      </div>
+    </div>
+  </div>
